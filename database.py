@@ -41,30 +41,30 @@ class BaseDatos:
 
         return self.cursor.fetchall()
 
-    def vender_producto(self, nombre, cantidad):
-
+    def obtener_cantidad(self, nombre):
+        """Busca y retorna la fila con la cantidad actual del producto."""
         self.cursor.execute(
             "SELECT cantidad FROM productos WHERE nombre=?",
             (nombre,)
         )
+        return self.cursor.fetchone()
 
-        fila = self.cursor.fetchone()
+    def actualizar_cantidad(self, nombre, nueva_cantidad):
+        """Guarda el nuevo valor de stock en la base de datos."""
+        self.cursor.execute(
+            """
+            UPDATE productos
+            SET cantidad=?
+            WHERE nombre=?
+            """,
+            (nueva_cantidad, nombre)
+        )
+        self.conexion.commit()
 
-        if fila and fila[0] >= cantidad:
-
-            nueva_cantidad = fila[0] - cantidad
-
-            self.cursor.execute(
-                """
-                UPDATE productos
-                SET cantidad=?
-                WHERE nombre=?
-                """,
-                (nueva_cantidad, nombre)
-            )
-
-            self.conexion.commit()
-
-            return True
-
-        return False
+    def eliminar_producto(self, nombre):
+        """Elimina un producto por completo de la base de datos usando su nombre."""
+        self.cursor.execute(
+            "DELETE FROM productos WHERE nombre=?",
+            (nombre,)
+        )
+        self.conexion.commit()
