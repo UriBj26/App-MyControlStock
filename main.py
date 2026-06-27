@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Agregamos la carpeta 'librerias' al buscador de Python
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'librerias'))
+
 import wx
 from data import Inventario
 from ventana_principal import MyStockControl
@@ -7,10 +13,10 @@ def terminar_espera(event):
     """Esta función se ejecuta automáticamente cuando el reloj llega a 3 segundos."""
     global splash, timer
     
-    timer.Stop()    # Frenamos el temporizador
-    splash.Close()  # Destruimos la ventana de presentación
+    timer.Stop()    
+    splash.Close() 
 
-    # Inicializamos la base de datos y la ventana principal en el momento justo
+    
     mi_inventario = Inventario()
     ventana = MyStockControl(mi_inventario)
     ventana.Show()
@@ -18,11 +24,11 @@ def terminar_espera(event):
 if __name__ == "__main__":
     app = wx.App()
 
-    # 1. Creamos e iniciamos la visualización de la pantalla de bienvenida estilo Frame
+  
     splash = SplashScreen()
     splash.Show()
 
-    # 2. Configuramos un temporizador de 3000 ms (3 segundos) en segundo plano
+   
     timer = wx.Timer()
     timer.Bind(wx.EVT_TIMER, terminar_espera)
     timer.Start(3000)

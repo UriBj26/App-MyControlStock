@@ -18,6 +18,13 @@ class MyStockControl(wx.Frame):
 
         self.inv = inventario
 
+        # --- LOGO DE LA APLICACIÓN ---
+        try:
+            icono = wx.Icon("logo.png", wx.BITMAP_TYPE_PNG)
+            self.SetIcon(icono)
+        except Exception as e:
+            print("No se pudo cargar el logo:", e)
+
         # --- BARRA DE MENÚ ---
         menubar = wx.MenuBar()
         menu_archivo = wx.Menu()

@@ -16,16 +16,16 @@ class SplashScreen(wx.Frame):
 
         panel = wx.Panel(self)
         
-        # Color crema/beige de fondo que combina con tu logo
+        
         panel.SetBackgroundColour(wx.Colour(253, 253, 230))
 
-        # --- Obtener la ruta de la imagen logo.png ---
+        
         ruta_base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         ruta_imagen = os.path.join(ruta_base, "logo.png")
 
         print(f"[Splash] Buscando imagen en: {ruta_imagen}")
 
-        # --- Resguardo por si no se encuentra el archivo ---
+        
         if not os.path.exists(ruta_imagen):
             mensaje_error = wx.StaticText(panel, label="No se encontró el archivo logo.png")
             sizer_error = wx.BoxSizer(wx.VERTICAL)
@@ -37,12 +37,12 @@ class SplashScreen(wx.Frame):
             self.Centre()
             return
 
-        # --- Cargar y Escalar Imagen (Algoritmo compatible) ---
+        
         imagen = wx.Image(ruta_imagen, wx.BITMAP_TYPE_PNG)
         ancho = imagen.GetWidth()
         alto = imagen.GetHeight()
 
-        ancho_maximo = 600
+        ancho_maximo = 500
         alto_maximo = 500
         factor = min(ancho_maximo / ancho, alto_maximo / alto)
 
@@ -52,13 +52,13 @@ class SplashScreen(wx.Frame):
         imagen = imagen.Scale(nuevo_ancho, nuevo_alto, wx.IMAGE_QUALITY_HIGH)
         bitmap = wx.StaticBitmap(panel, wx.ID_ANY, wx.Bitmap(imagen))
 
-        # --- Texto de Carga Dinámico ---
+        
         texto_carga = wx.StaticText(panel, label="CARGANDO...")
         fuente = wx.Font(11, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD)
         texto_carga.SetFont(fuente)
         texto_carga.SetForegroundColour(wx.Colour(60, 60, 60)) # Gris oscuro
 
-        # --- Diseño de la interfaz ---
+        
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(bitmap, 0, wx.ALIGN_CENTER | wx.TOP, 10)
         sizer.Add(texto_carga, 0, wx.ALIGN_CENTER | wx.TOP | wx.BOTTOM, 15)
