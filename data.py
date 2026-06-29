@@ -41,19 +41,19 @@ class Inventario:
         return productos
 
     def vender(self, nombre, cantidad):
-        # Obtenemos la cantidad directamente desde la base de datos
+        
         fila = self.bd.obtener_cantidad(nombre)
 
-        # La lógica de negocio y la resta se ejecutan en esta capa de objetos
+       
         if fila and fila[0] >= cantidad:
             nueva_cantidad = fila[0] - cantidad
 
-            # Le ordenamos a la base de datos que guarde el nuevo valor calculado
+            
             self.bd.actualizar_cantidad(nombre, nueva_cantidad)
             return True
 
         return False
 
     def eliminar(self, nombre):
-        """Ordena a la base de datos eliminar el producto especificado."""
+        
         self.bd.eliminar_producto(nombre)

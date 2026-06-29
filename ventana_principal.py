@@ -18,69 +18,124 @@ class MyStockControl(wx.Frame):
 
         self.inv = inventario
 
-        # --- LOGO DE LA APLICACIÓN ---
+        # -------------------------
+        # LOGO
+        # -------------------------
         try:
             icono = wx.Icon("logo.png", wx.BITMAP_TYPE_PNG)
             self.SetIcon(icono)
         except Exception as e:
             print("No se pudo cargar el logo:", e)
 
-        # --- BARRA DE MENÚ ---
+        # -------------------------
+        # BARRA DE MENÚ
+        # -------------------------
+
         menubar = wx.MenuBar()
+
         menu_archivo = wx.Menu()
-        item_salir = menu_archivo.Append(wx.ID_EXIT, "Salir", "Salir de la aplicación")
-        
+        self.item_salir = menu_archivo.Append(
+            wx.ID_EXIT,
+            "Salir",
+            "Salir de la aplicación"
+        )
+
         menu_ayuda = wx.Menu()
-        item_acerca = menu_ayuda.Append(wx.ID_ABOUT, "Acerca de...", "Información del programa")
+        self.item_acerca = menu_ayuda.Append(
+            wx.ID_ABOUT,
+            "Acerca de...",
+            "Información del programa"
+        )
 
         menubar.Append(menu_archivo, "&Archivo")
         menubar.Append(menu_ayuda, "&Ayuda")
+
         self.SetMenuBar(menubar)
 
-        self.Bind(wx.EVT_MENU, lambda e: self.Close(), item_salir)
-        self.Bind(wx.EVT_MENU, self.mostrar_info, item_acerca)
+        self.Bind(wx.EVT_MENU, self.salir, self.item_salir)
+        self.Bind(wx.EVT_MENU, self.mostrar_info, self.item_acerca)
 
-        # --- INTERFAZ PRINCIPAL ---
+        # -------------------------
+        # PANEL PRINCIPAL
+        # -------------------------
+
         self.panel = wx.Panel(self)
 
-        self.menu_panel = wx.Panel(self.panel, size=(180, -1))
+        self.menu_panel = wx.Panel(
+            self.panel,
+            size=(180, -1)
+        )
+
         self.menu_panel.SetBackgroundColour("#F8F9FA")
 
-        # Contenedor dinámico de contenidos
         self.contenido_panel = wx.Panel(self.panel)
-        
-        # Sizer maestro del contenedor
+
         self.contenido_sizer = wx.BoxSizer(wx.VERTICAL)
         self.contenido_panel.SetSizer(self.contenido_sizer)
 
         menu_sizer = wx.BoxSizer(wx.VERTICAL)
-        for label in [
+
+        opciones = [
             "Agregar Producto",
             "Ver Stock",
             "Registrar Venta",
             "Productos Agotados",
             "Salir"
-        ]:
-            boton = wx.StaticText(self.menu_panel, label=f"   {label}   ")
+        ]
+
+        for texto in opciones:
+
+            boton = wx.StaticText(
+                self.menu_panel,
+                label=f" {texto} "
+            )
+
             boton.SetCursor(wx.Cursor(wx.CURSOR_HAND))
+
             boton.Bind(wx.EVT_LEFT_DOWN, self.navegar)
-            menu_sizer.Add(boton, 0, wx.ALL, 12)
+
+            menu_sizer.Add(
+                boton,
+                0,
+                wx.ALL,
+                12
+            )
 
         self.menu_panel.SetSizer(menu_sizer)
 
         principal = wx.BoxSizer(wx.HORIZONTAL)
-        principal.Add(self.menu_panel, 0, wx.EXPAND)
-        principal.Add(self.contenido_panel, 1, wx.EXPAND | wx.ALL, 15)
+
+        principal.Add(
+            self.menu_panel,
+            0,
+            wx.EXPAND
+        )
+
+        principal.Add(
+            self.contenido_panel,
+            1,
+            wx.EXPAND | wx.ALL,
+            15
+        )
 
         self.panel.SetSizer(principal)
 
-        # Cargar vista inicial
         mostrar_agregar(self)
 
+    
+
+    def salir(self, event):
+        self.Close()
+
+    
+
     def mostrar_info(self, event):
+
         info = wx.adv.AboutDialogInfo()
+
         info.SetName("MY STOCK CONTROL")
         info.SetVersion("1.0")
+
         info.SetDescription(
             "Materia: Programación Orientada a Objetos\n"
             "Año: 2026\n\n"
@@ -89,24 +144,39 @@ class MyStockControl(wx.Frame):
             "• wxPython\n"
             "• SQLite"
         )
-        info.SetDevelopers(["Adrian Etchenique", "Bejarano Uriel"])
+
+        info.SetDevelopers([
+            "Adrian Etchenique",
+            "Bejarano Uriel"
+        ])
+
         wx.adv.AboutBox(info)
 
+    
+
     def limpiar(self):
-        """Elimina todos los widgets y resetea por completo el Sizer maestro."""
+
         self.contenido_panel.DestroyChildren()
+
         self.contenido_sizer.Clear(True)
 
+    
+
     def navegar(self, event):
+
         opcion = event.GetEventObject().GetLabel().strip()
 
         if opcion == "Agregar Producto":
             mostrar_agregar(self)
+
         elif opcion == "Ver Stock":
             mostrar_stock(self)
+
         elif opcion == "Registrar Venta":
             mostrar_venta(self)
+
         elif opcion == "Productos Agotados":
             mostrar_agotados(self)
+
         elif opcion == "Salir":
             self.Close()

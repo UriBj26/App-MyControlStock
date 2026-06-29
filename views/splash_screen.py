@@ -2,11 +2,7 @@ import wx
 import os
 
 class SplashScreen(wx.Frame):
-    """
-    Pantalla de inicio de MY STOCK CONTROL.
-    Muestra una imagen de presentación con un comentario de carga 
-    antes de abrir la ventana principal.
-    """
+    
     def __init__(self):
         super().__init__(
             parent=None,

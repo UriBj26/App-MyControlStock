@@ -42,7 +42,7 @@ class BaseDatos:
         return self.cursor.fetchall()
 
     def obtener_cantidad(self, nombre):
-        """Busca y retorna la fila con la cantidad actual del producto."""
+      
         self.cursor.execute(
             "SELECT cantidad FROM productos WHERE nombre=?",
             (nombre,)
@@ -50,7 +50,7 @@ class BaseDatos:
         return self.cursor.fetchone()
 
     def actualizar_cantidad(self, nombre, nueva_cantidad):
-        """Guarda el nuevo valor de stock en la base de datos."""
+        
         self.cursor.execute(
             """
             UPDATE productos
@@ -62,7 +62,7 @@ class BaseDatos:
         self.conexion.commit()
 
     def eliminar_producto(self, nombre):
-        """Elimina un producto por completo de la base de datos usando su nombre."""
+       
         self.cursor.execute(
             "DELETE FROM productos WHERE nombre=?",
             (nombre,)
