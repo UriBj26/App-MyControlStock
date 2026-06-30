@@ -56,26 +56,26 @@ def mostrar_stock(frame):
     controlador = VerStock(frame)
     sizer_interno = wx.BoxSizer(wx.VERTICAL)
     
-    # 1. Crear tabla (Siempre)
+ 
     tabla = wx.ListCtrl(
         frame.contenido_panel,
         style=wx.LC_REPORT | wx.BORDER_SUNKEN
     )
     controlador.tabla = tabla
     
-    # 2. Definir columnas (Siempre)
+   
     columnas = ["Nombre", "Categoría", "Precio", "Cantidad"]
     for i, columna in enumerate(columnas):
         tabla.InsertColumn(i, columna, width=150)
         
-    # 3. Llenar tabla (Solo si hay datos)
+   
     for p in frame.inv.obtener_todo():
         fila = tabla.InsertItem(tabla.GetItemCount(), p.nombre)
         tabla.SetItem(fila, 1, p.categoria)
         tabla.SetItem(fila, 2, str(p.precio))
         tabla.SetItem(fila, 3, str(p.cantidad))
         
-    # 4. Crear botones (FUERA del bucle, para que siempre existan)
+    
     sizer_botones = wx.BoxSizer(wx.HORIZONTAL)
     
     boton_pdf = wx.Button(frame.contenido_panel, label="Descargar (PDF)", size=(180, 30))
@@ -89,7 +89,7 @@ def mostrar_stock(frame):
     sizer_botones.Add(boton_pdf, 0, wx.RIGHT, 10)
     sizer_botones.Add(boton_eliminar, 0)
     
-    # 5. Agregar elementos al sizer maestro
+    
     sizer_interno.Add(tabla, 1, wx.EXPAND | wx.ALL, 5)
     sizer_interno.Add(sizer_botones, 0, wx.ALIGN_RIGHT | wx.ALL, 5)
     
