@@ -52,7 +52,7 @@ class SplashScreen(wx.Frame):
         texto_carga = wx.StaticText(panel, label="CARGANDO...")
         fuente = wx.Font(11, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD)
         texto_carga.SetFont(fuente)
-        texto_carga.SetForegroundColour(wx.Colour(60, 60, 60)) # Gris oscuro
+        texto_carga.SetForegroundColour(wx.Colour(60, 60, 60))
 
         
         sizer = wx.BoxSizer(wx.VERTICAL)
