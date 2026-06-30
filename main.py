@@ -1,7 +1,7 @@
 import sys
 import os
 
-# Agregamos la carpeta 'librerias' al buscador de Python
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "librerias"))
 
 import wx

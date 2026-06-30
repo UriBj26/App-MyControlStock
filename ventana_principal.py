@@ -1,5 +1,6 @@
 import wx
 import wx.adv
+import os
 
 from views.agregar_producto import mostrar_agregar
 from views.ver_stock import mostrar_stock
@@ -18,18 +19,16 @@ class MyStockControl(wx.Frame):
 
         self.inv = inventario
 
-        # -------------------------
-        # LOGO
-        # -------------------------
+      
         try:
-            icono = wx.Icon("logo.png", wx.BITMAP_TYPE_PNG)
+           
+            ruta_proyecto = os.path.dirname(os.path.abspath(__file__))
+            ruta_logo = os.path.join(ruta_proyecto, "logo.png")
+            
+            icono = wx.Icon(ruta_logo, wx.BITMAP_TYPE_PNG)
             self.SetIcon(icono)
         except Exception as e:
             print("No se pudo cargar el logo:", e)
-
-        # -------------------------
-        # BARRA DE MENÚ
-        # -------------------------
 
         menubar = wx.MenuBar()
 
@@ -55,21 +54,15 @@ class MyStockControl(wx.Frame):
         self.Bind(wx.EVT_MENU, self.salir, self.item_salir)
         self.Bind(wx.EVT_MENU, self.mostrar_info, self.item_acerca)
 
-        # -------------------------
-        # PANEL PRINCIPAL
-        # -------------------------
-
         self.panel = wx.Panel(self)
 
         self.menu_panel = wx.Panel(
             self.panel,
             size=(180, -1)
         )
-
         self.menu_panel.SetBackgroundColour("#F8F9FA")
 
         self.contenido_panel = wx.Panel(self.panel)
-
         self.contenido_sizer = wx.BoxSizer(wx.VERTICAL)
         self.contenido_panel.SetSizer(self.contenido_sizer)
 
@@ -84,16 +77,12 @@ class MyStockControl(wx.Frame):
         ]
 
         for texto in opciones:
-
             boton = wx.StaticText(
                 self.menu_panel,
                 label=f" {texto} "
             )
-
             boton.SetCursor(wx.Cursor(wx.CURSOR_HAND))
-
             boton.Bind(wx.EVT_LEFT_DOWN, self.navegar)
-
             menu_sizer.Add(
                 boton,
                 0,
@@ -104,13 +93,11 @@ class MyStockControl(wx.Frame):
         self.menu_panel.SetSizer(menu_sizer)
 
         principal = wx.BoxSizer(wx.HORIZONTAL)
-
         principal.Add(
             self.menu_panel,
             0,
             wx.EXPAND
         )
-
         principal.Add(
             self.contenido_panel,
             1,
@@ -119,23 +106,15 @@ class MyStockControl(wx.Frame):
         )
 
         self.panel.SetSizer(principal)
-
         mostrar_agregar(self)
-
-    
 
     def salir(self, event):
         self.Close()
 
-    
-
     def mostrar_info(self, event):
-
         info = wx.adv.AboutDialogInfo()
-
         info.SetName("MY STOCK CONTROL")
         info.SetVersion("1.0")
-
         info.SetDescription(
             "Materia: Programación Orientada a Objetos\n"
             "Año: 2026\n\n"
@@ -144,39 +123,26 @@ class MyStockControl(wx.Frame):
             "• wxPython\n"
             "• SQLite"
         )
-
         info.SetDevelopers([
             "Adrian Etchenique",
             "Bejarano Uriel"
         ])
-
         wx.adv.AboutBox(info)
 
-    
-
     def limpiar(self):
-
         self.contenido_panel.DestroyChildren()
-
         self.contenido_sizer.Clear(True)
 
-    
-
     def navegar(self, event):
-
         opcion = event.GetEventObject().GetLabel().strip()
 
         if opcion == "Agregar Producto":
             mostrar_agregar(self)
-
         elif opcion == "Ver Stock":
             mostrar_stock(self)
-
         elif opcion == "Registrar Venta":
             mostrar_venta(self)
-
         elif opcion == "Productos Agotados":
             mostrar_agotados(self)
-
         elif opcion == "Salir":
             self.Close()
